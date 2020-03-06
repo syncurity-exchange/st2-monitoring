@@ -15,3 +15,4 @@ action:
   ref: "st2_watcher.warn_used_disk_space"
   parameters:
     path: "/var/log"
+    disk_space_threshold: 80
