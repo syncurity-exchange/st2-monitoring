@@ -1,6 +1,6 @@
 ---
 name: "warn_used_disk_space.yaml"
-runner_type: "local-shell-script"
+runner_type: orquesta
 description: "Returns used disk space percentage based on the partition a folder path is located on"
 enabled: true
 entry_point: "workflows/warn_used_disk_space.yaml"
