@@ -7,7 +7,7 @@ input:
 tasks:
 
   get_user_disk_space:
-    action: st2_watcher.check_disk_space
+    action: st2_watcher.check_disk_space_used
     input:
       folder_path: <% ctx().path %>
     next:
@@ -25,7 +25,7 @@ tasks:
         do: fail
 
   send_email:
-    action: send_email
+    action: core.sendmail
     input:
       from: "stanley@stackstorm.org"
       to: "stanley@stackstorm.org"
