@@ -1,15 +1,15 @@
 ---
 
 name: "Notify on High Disk Space Usage"
-pack: "st2_watcher"
+pack: st2_watcher
 description: "Email Notification for High Disk Usage"
 enabled: true
 
 trigger:
-  type: "diskspace_warning"
+  type: st2_watcher.diskspace.warning
 
 action:
-  ref: "core.sendmail"
+  ref: core.sendmail
   parameters:
     from: "stanley@stackstorm.org"
     to: "stanley@stackstorm.org"
