@@ -1,0 +1,28 @@
+version: 1.0
+
+input:
+  - path
+
+tasks:
+
+  get_user_disk_space:
+    action: st2_watcher.check_disk_space
+    input:
+      folder_path: <% ctx().path %>
+    next:
+      - when: <% succeeded() and isInteger($.get("USED_DISK_SPACE")) %>
+        publish:
+          - used_disk_space: <% result().get("USED_DISK_SPACE") %>
+          - msg: "Used disk space: "<% result().get("USED_DISK_SPACE") %>
+        do:
+          - fire_diskspace_trigger
+      - when: <% failed() %>
+        publish: <% result() %>
+        do: fail
+
+  fire_diskspace_trigger:
+    action: core.inject_trigger
+      input:
+        trigger: st2_watcher.diskspace_warning
+        payload:
+          used_disk_space: ctx().used_disk_space
