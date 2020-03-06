@@ -18,7 +18,8 @@ tasks:
         do:
           - send_email
       - when: <% succeeded() %>
-        - msg: "Used disk space: "<% result().get("USED_DISK_SPACE") %>
+        publish:
+          - msg: "Used disk space: "<% result().get("USED_DISK_SPACE") %>
       - when: <% failed() %>
         publish: <% result() %>
         do: fail
