@@ -1,4 +1,0 @@
-irflow_client
-requests
-validators
-syncurity-utils<=0.2.24
