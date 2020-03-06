@@ -8,8 +8,8 @@ enabled: true
 trigger:
   type: "core.st2.IntervalTimer"
   parameters:
-    unit: "minutes"
-    delta: 1
+    unit: "hours"
+    delta: 4
 
 action:
   ref: "st2_watcher.warn_used_disk_space"
