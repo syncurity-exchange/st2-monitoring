@@ -1,1 +1,6 @@
 ---
+
+target_email:
+  description: "Email address for notifications"
+  type: string
+  required: true
