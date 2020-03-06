@@ -10,3 +10,8 @@ parameters:
         description: "Path to folder to check"
         required: true
         position: 0
+    disk_space_threshold:
+        type: "integer"
+        description: "Diskspace usage threshold"
+        required: true
+        position: 1
