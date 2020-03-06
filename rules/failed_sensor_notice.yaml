@@ -1,0 +1,18 @@
+---
+
+name: "failed_sensor_notice"
+pack: "cloudy"
+description: "Email Notification for Sensor Failures"
+enabled: true
+
+trigger:
+        type: "core.st2.sensor.process_exit"
+
+action:
+    ref: "core.sendmail"
+    parameters:
+        from: "{{ st2kv.system.alert_email_sender }}"
+        to: "{{ st2kv.system.alert_email_recipient }}"
+        subject: "StackStorm Sensor Failure"
+        body: "A StackStorm sensor has failed. {{ trigger }}"
+        send_empty_body: "yes"
