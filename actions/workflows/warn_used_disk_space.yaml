@@ -8,20 +8,22 @@ input:
 
 tasks:
 
-  get_user_disk_space:
+  get_used_disk_space:
     action: st2_watcher.check_disk_space_used
     input:
       folder_path: <% ctx().path %>
     next:
-      - when: <% succeeded() and isInteger(result().get("USED_DISK_SPACE")) and result().get("USED_DISK_SPACE") >= ctx().disk_space_threshold %>
+      - when: <% succeeded() and isInteger(result().stdout.USED_DISK_SPACE) and result().stdout.USED_DISK_SPACE >= ctx().disk_space_threshold %>
         publish:
-          - used_disk_space: <% result().get("USED_DISK_SPACE") %>
-          - msg: Used disk space <% result().get("USED_DISK_SPACE") %>
+          - used_disk_space: <% result().stdout.USED_DISK_SPACE %>
+          - msg: Used disk space <% result().stdout.USED_DISK_SPACE %>
         do:
           - send_email
-      - when: <% succeeded() and isInteger(result().get("USED_DISK_SPACE")) and result().get("USED_DISK_SPACE") < ctx().disk_space_threshold %>
+      - when: <% succeeded() and isInteger(result().stdout.USED_DISK_SPACE) and result().stdout.USED_DISK_SPACE < ctx().disk_space_threshold %>
         publish:
-          - msg: Used disk space <% result().get("USED_DISK_SPACE") %>
+          - msg: Used disk space <% result().stdout.USED_DISK_SPACE %>
+        do:
+          - stop
       - when: <% failed() %>
         publish: <% result() %>
         do: fail
@@ -31,6 +33,12 @@ tasks:
     input:
       from: <% ctx().from %>
       to: <% ctx().to %>
-      subject: "Alert: StackStorm Server High Disk Usage"
-      body: "Your StackStorm server has following amount of disk space in use: {{ ctx().used_disk_space }}"
-      send_empty_body: "yes"
+      subject: Alert - StackStorm Server High Disk Usage
+      body: Your StackStorm server has following amount of disk space in use: <% ctx(used_disk_space) %>
+      send_empty_body: yes
+
+  stop:
+    action: core.noop
+
+output:
+  - result: <% ctx(msg) %>
