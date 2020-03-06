@@ -14,7 +14,7 @@ tasks:
       - when: <% succeeded() and isInteger(result().get("USED_DISK_SPACE")) and result().get("USED_DISK_SPACE") > ctx().disk_space_threshold %>
         publish:
           - used_disk_space: <% result().get("USED_DISK_SPACE") %>
-          - msg: "Used disk space: "<% result().get("USED_DISK_SPACE") %>
+          - msg: Used disk space <% result().get("USED_DISK_SPACE") %>
         do:
           - send_email
       - when: <% succeeded() %>
