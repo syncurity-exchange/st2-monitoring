@@ -2,6 +2,7 @@ version: 1.0
 
 input:
   - path
+  - disk_space_threshold
 
 tasks:
 
@@ -10,19 +11,23 @@ tasks:
     input:
       folder_path: <% ctx().path %>
     next:
-      - when: <% succeeded() and isInteger($.get("USED_DISK_SPACE")) %>
+      - when: <% succeeded() and isInteger(result().get("USED_DISK_SPACE")) and result().get("USED_DISK_SPACE") > ctx().disk_space_threshold %>
         publish:
           - used_disk_space: <% result().get("USED_DISK_SPACE") %>
           - msg: "Used disk space: "<% result().get("USED_DISK_SPACE") %>
         do:
-          - fire_diskspace_trigger
+          - send_email
+      - when: <% succeeded() %>
+        - msg: "Used disk space: "<% result().get("USED_DISK_SPACE") %>
       - when: <% failed() %>
         publish: <% result() %>
         do: fail
 
-  fire_diskspace_trigger:
-    action: core.inject_trigger
-      input:
-        trigger: st2_watcher.diskspace_warning
-        payload:
-          used_disk_space: ctx().used_disk_space
+  send_email:
+    action: send_email
+    input:
+      from: "stanley@stackstorm.org"
+      to: "stanley@stackstorm.org"
+      subject: "Alert: StackStorm Server High Disk Usage"
+      body: "Your StackStorm server has following amount of disk space in use: {{ ctx().used_disk_space }}"
+      send_empty_body: "yes"
