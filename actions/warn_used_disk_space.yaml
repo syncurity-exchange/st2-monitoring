@@ -1,5 +1,5 @@
 ---
-name: "warn_used_disk_space.yaml"
+name: "warn_used_disk_space"
 runner_type: orquesta
 description: "Returns used disk space percentage based on the partition a folder path is located on"
 enabled: true
