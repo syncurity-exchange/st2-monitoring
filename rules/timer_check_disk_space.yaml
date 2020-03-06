@@ -16,3 +16,5 @@ action:
   parameters:
     path: "/var/log"
     disk_space_threshold: 80
+    from: "{{ st2kv.system.alert_email_sender }}"
+    to: "{{ st2kv.system.alert_email_recipient }}"

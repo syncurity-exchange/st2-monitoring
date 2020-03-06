@@ -15,3 +15,13 @@ parameters:
         description: "Diskspace usage threshold"
         required: true
         position: 1
+    from:
+        type: "string"
+        description: "From Email"
+        required: true
+        position: 2
+    to:
+        type: "string"
+        description: "To Email"
+        required: true
+        position: 3
