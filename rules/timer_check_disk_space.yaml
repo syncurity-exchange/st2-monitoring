@@ -1,0 +1,17 @@
+---
+
+name: "Timer Disk Space Usage Check"
+pack: "st2_watcher"
+description: "Timer to check used disk space"
+enabled: true
+
+trigger:
+  type: "core.st2.IntervalTimer"
+  parameters:
+    unit: "minutes"
+    delta: 1
+
+action:
+  ref: "st2_watcher.warn_used_disk_space"
+  parameters:
+    path: "/var/log"

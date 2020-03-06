@@ -1,11 +1,11 @@
 ---
-name: "check_disk_space_used"
+name: "warn_used_disk_space.yaml"
 runner_type: "local-shell-script"
 description: "Returns used disk space percentage based on the partition a folder path is located on"
 enabled: true
-entry_point: "check_disk_space.sh"
+entry_point: "workflows/warn_used_disk_space.yaml"
 parameters:
-    folder_path:
+    path:
         type: "string"
         description: "Path to folder to check"
         required: true

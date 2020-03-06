@@ -1,0 +1,18 @@
+---
+
+name: "Notify on High Disk Space Usage"
+pack: "st2_watcher"
+description: "Email Notification for High Disk Usage"
+enabled: true
+
+trigger:
+        type: "st2_watcher.diskspace_warning"
+
+action:
+    ref: "core.sendmail"
+    parameters:
+        from: "stanley@stackstorm.org"
+        to: "stanley@stackstorm.org"
+        subject: "Alert: StackStorm Server High Disk Usage"
+        body: "Your StackStorm server has following amount of disk space in use: {{ trigger.used_disk_space }}"
+        send_empty_body: "yes"
