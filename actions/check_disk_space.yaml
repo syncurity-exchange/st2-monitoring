@@ -1,0 +1,22 @@
+---
+name: "prune_logs_disk_space"
+runner_type: "local-shell-script"
+description: "Removes .log files in the specified directory when total disk usage is greater than the disk_percentage integer"
+enabled: true
+entry_point: "prune_logs_disk_space.sh"
+parameters:
+    folder_path:
+        type: "string"
+        description: "Path to folder with logs to delete"
+        required: true
+        position: 0
+    disk_usage:
+        type: "integer"
+        description: "Percent disk usage"
+        required: true
+        position: 1
+    test_mode:
+        type: "string"
+        description: "If this value is anything but an empty string or not set, prints .log files that would be deleted to stdout"
+        required: false
+        position: 2
